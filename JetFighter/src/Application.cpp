@@ -27,8 +27,6 @@ bool jet::Application::init() {
 				printf("Renderer could not be created: %s\n", SDL_GetError());
 				success = false;
 			} else {
-				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-
 				int imageFlags = IMG_INIT_PNG;
 
 				if (!(IMG_Init(imageFlags) & imageFlags)) {
@@ -55,7 +53,8 @@ void jet::Application::close() {
 	SDL_Quit();
 }
 
-void jet::Application::clearScreen() {
+void jet::Application::clearScreen(SDL_Color* color) {
+	setRendererColor(color);
 	SDL_RenderClear(renderer);
 }
 
@@ -64,7 +63,11 @@ void jet::Application::renderScreen() {
 }
 
 void jet::Application::renderOnScreen(SDL_Texture* texture) {
-	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	renderOnScreen(texture, NULL);
+}
+
+void jet::Application::renderOnScreen(SDL_Texture* texture, SDL_Rect* destinationRect) {
+	SDL_RenderCopy(renderer, texture, NULL, destinationRect);
 }
 
 SDL_Texture* jet::Application::loadTexture(std::string path) {
@@ -88,4 +91,23 @@ SDL_Texture* jet::Application::loadTexture(std::string path) {
 	}
 
 	return newTexture;
+}
+
+void jet::Application::setRendererColor(SDL_Color* color) {
+	SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);
+}
+
+void jet::Application::drawLine(int startX, int startY, int endX, int endY, SDL_Color* color) {
+	setRendererColor(color);
+	SDL_RenderDrawLine(renderer, startX, startY, endX, endY);
+}
+
+void jet::Application::drawFillRectangle(SDL_Rect* rect, SDL_Color* color) {
+	setRendererColor(color);
+	SDL_RenderFillRect(renderer, rect);
+}
+
+void jet::Application::drawOutlinedRectangle(SDL_Rect* rect, SDL_Color* color) {
+	setRendererColor(color);
+	SDL_RenderDrawRect(renderer, rect);
 }

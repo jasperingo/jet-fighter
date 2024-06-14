@@ -8,9 +8,9 @@
 namespace jet {
 	class Application {
 	public:
-		const int SCREEN_WIDTH = 600;
+		const static int SCREEN_WIDTH = 600;
 
-		const int SCREEN_HEIGHT = 600;
+		const static int SCREEN_HEIGHT = 600;
 
 		Application();
 
@@ -18,17 +18,27 @@ namespace jet {
 
 		void close();
 
-		void clearScreen();
-
 		void renderScreen();
+
+		void clearScreen(SDL_Color* color);
 
 		void renderOnScreen(SDL_Texture* texture);
 
+		void renderOnScreen(SDL_Texture* texture, SDL_Rect* destinationRect);
+
 		SDL_Texture* loadTexture(std::string path);
+
+		void drawFillRectangle(SDL_Rect* rectangle, SDL_Color* color);
+
+		void drawOutlinedRectangle(SDL_Rect* rectangle, SDL_Color* color);
+
+		void drawLine(int startX, int startY, int endX, int endY, SDL_Color* color);
 
 	private:
 		SDL_Window* window;
 
 		SDL_Renderer* renderer;
+
+		void setRendererColor(SDL_Color* color);
 	};
 }
