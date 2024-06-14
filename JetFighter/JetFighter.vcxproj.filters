@@ -21,6 +21,9 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\jet.png">
@@ -29,9 +32,18 @@
     <Image Include="resources\dot.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\stick.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

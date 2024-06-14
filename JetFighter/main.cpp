@@ -1,9 +1,10 @@
 #include "include/Application.h"
+#include "include/Texture.h"
 
 int main(int argc, char* args[]) {
 	jet::Application application;
 
-	SDL_Texture* texture = NULL;
+	jet::Texture jetTexture;
 
 	SDL_Rect textureBox = {
 		jet::Application::SCREEN_WIDTH / 3,
@@ -34,8 +35,14 @@ int main(int argc, char* args[]) {
 
 	SDL_Color lineColor = { 0x11, 0xBF, 0xFF, 0xFF };
 
+	jet::Texture stickTexture;
+	jet::Texture backgroundTexture;
+
+	SDL_Color colorKey = { 0, 0xFF, 0xFF, 0 };
+
 	if (application.init()) {
-		texture = application.loadTexture("resources/jet.png");
+		bool stickLoaded = stickTexture.loadFromFile(application.getRenderer(), "resources/stick.png", &colorKey);
+		bool bgLoaded = backgroundTexture.loadFromFile(application.getRenderer(), "resources/background.png");
 
 		SDL_Event event;
 
@@ -50,23 +57,30 @@ int main(int argc, char* args[]) {
 
 			application.clearScreen(&clearColor);
 
-			application.drawFillRectangle(&filledBox, &filledBoxColor);
+			if (stickLoaded && bgLoaded) {
+				backgroundTexture.render(application.getRenderer(), 0, 0);
 
-			application.drawOutlinedRectangle(&outlinedBox, &outlinedBoxColor);
+				stickTexture.render(application.getRenderer(), 240, 190);
+			} else {
+				application.drawFillRectangle(&filledBox, &filledBoxColor);
 
-			application.drawLine(0, jet::Application::SCREEN_HEIGHT / 2, jet::Application::SCREEN_WIDTH, jet::Application::SCREEN_HEIGHT / 2, &lineColor);
+				application.drawOutlinedRectangle(&outlinedBox, &outlinedBoxColor);
 
-			if (texture != NULL) {
-				application.renderOnScreen(texture, &textureBox);
+				application.drawLine(0, 
+					jet::Application::SCREEN_HEIGHT / 2, 
+					jet::Application::SCREEN_WIDTH, 
+					jet::Application::SCREEN_HEIGHT / 2, 
+					&lineColor
+				);
 			}
 
 			application.renderScreen();
 		}
 	}
 
-	SDL_DestroyTexture(texture);
-
-	texture = NULL;
+	stickTexture.free();
+	backgroundTexture.free();
+	jetTexture.free();
 
 	application.close();
 

@@ -18,15 +18,13 @@ namespace jet {
 
 		void close();
 
+		SDL_Renderer* getRenderer();
+
 		void renderScreen();
 
 		void clearScreen(SDL_Color* color);
 
-		void renderOnScreen(SDL_Texture* texture);
-
-		void renderOnScreen(SDL_Texture* texture, SDL_Rect* destinationRect);
-
-		SDL_Texture* loadTexture(std::string path);
+		void renderOnScreen(SDL_Texture* texture, SDL_Rect* destinationRect = NULL);
 
 		void drawFillRectangle(SDL_Rect* rectangle, SDL_Color* color);
 
